@@ -10,14 +10,21 @@ class Snake {
     }
 
     draw() {
-        for (var i = 0; i < this.positionMemory.length; i++) {
-            fill(
-                Math.min(this.colour[0] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255),
-                Math.min(this.colour[1] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255),
-                Math.min(this.colour[2] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255)
-            );
+        if (this.positionMemory.length < 2) {
+            fill(... this.colour);
             
-            circle(this.positionMemory[i][0], this.positionMemory[i][1], this.plumpiness, this.plumpiness);
+            circle(this.x, this.y, this.plumpiness, this.plumpiness);
+        } else {
+
+            for (var i = 0; i < this.positionMemory.length; i++) {
+                fill(
+                    Math.min(this.colour[0] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255),
+                    Math.min(this.colour[1] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255),
+                    Math.min(this.colour[2] + (255 * ((this.positionMemory.length - i) / this.positionMemory.length)), 255)
+                );
+                
+                circle(this.positionMemory[i][0], this.positionMemory[i][1], this.plumpiness, this.plumpiness);
+            }
         }
     }
 
@@ -33,7 +40,8 @@ class Snake {
     }
 }
 
-var snakey = new Snake(window.innerWidth / 2, window.innerHeight / 2, [255, 0, 0], 100, 200);
+var snakey = new Snake(window.innerWidth / 3, window.innerHeight / 2, [255, 0, 0], 100, 200);
+var slithery = new Snake((window.innerWidth / 3) * 2, window.innerHeight / 2, [0, 0, 255], 100, 200);
 
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
@@ -45,16 +53,29 @@ function draw() {
     background(255);
 
     snakey.draw();
+    slithery.draw();
 
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(87)) {
         snakey.translate(0, -2);
-    } else if (keyIsDown(DOWN_ARROW)) { 
+    } else if (keyIsDown(83)) { 
         snakey.translate(0, 2);
     }
 
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(65)) {
         snakey.translate(-2, 0);
-    } else if (keyIsDown(RIGHT_ARROW)) {
+    } else if (keyIsDown(68)) {
         snakey.translate(2, 0);
+    }
+
+    if (keyIsDown(UP_ARROW)) {
+        slithery.translate(0, -2);
+    } else if (keyIsDown(DOWN_ARROW)) { 
+        slithery.translate(0, 2);
+    }
+
+    if (keyIsDown(LEFT_ARROW)) {
+        slithery.translate(-2, 0);
+    } else if (keyIsDown(RIGHT_ARROW)) {
+        slithery.translate(2, 0);
     }
 }
